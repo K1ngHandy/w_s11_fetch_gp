@@ -16,7 +16,20 @@ export default function Books() {
   }, [])
 
   const fetchBooks = () => {
-
+    fetch('/api/books')
+      .then(res => {
+        if (!res.ok) {
+          throw new Error('Network response not OK')
+        }
+        const contentType = res.headers.get('Content-Type')
+        if (contentType.includes('application/json')) {
+          return res.json()
+        }
+    })
+    .then(data => {
+      setBooks(data)
+    })
+    .catch(err => console.error('Failed to GET books', err))
   }
 
   const deleteBook = id => {

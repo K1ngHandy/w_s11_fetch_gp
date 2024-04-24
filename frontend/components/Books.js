@@ -33,7 +33,10 @@ export default function Books() {
   }
 
   const deleteBook = id => {
-
+    console.log('Deleting book with ID ${id}')
+    fetch(`/api/books/${id}`, { method: 'DELETE' })
+      .then(() => fetchBooks())
+      .catch(err => console.error('Failed to delete book', err))
   }
 
   const onSubmit = (event) => {

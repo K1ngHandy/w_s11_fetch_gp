@@ -41,7 +41,22 @@ export default function Books() {
 
   const onSubmit = (event) => {
     event.preventDefault()
-
+    const url = bookForm.id 
+    ? `/api/books/${bookForm.id}` 
+    : `/api/books`
+    fetch(url, {
+      method: bookForm.id ? 'PUT' : 'POST',
+      body: JSON.stringify(bookForm),
+      headers: new Headers ({
+        'Content-Type': 'application/json',
+        'X-Bloom': 'full-stack-web',
+      })
+    })
+    .then(() => {
+      fetchBooks()
+      setBookForm(initialForm)
+    })
+    .catch(err => console.error('Failed to save book', err))
   }
 
   const onChange = (event) => {
